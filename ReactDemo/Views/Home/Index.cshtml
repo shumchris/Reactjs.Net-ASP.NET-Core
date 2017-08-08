@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ReactDemo.Models.CommentModel>
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <title>Hello React</title>
+</head>
+<body>
+    @Html.React("Components.CommentsBox", new
+    {
+        initialData = Model,
+        getUrl = Url.Action("Comments"),
+        submitUrl = Url.Action("AddComment"),
+        pollInterval = 2000
+    })
+    @Html.React("Components.Greet", new
+{
+    name = "Test name Property"
+})
+    <div id="content"></div>
+    <script src="@Url.Content("~/build/client.bundle.js")"></script>
+
+    @Html.ReactInitJavaScript()
+
+</body>
+</html>
