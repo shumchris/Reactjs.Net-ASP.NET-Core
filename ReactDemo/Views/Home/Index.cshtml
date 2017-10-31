@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReactDemo.Models.CommentModel>
+﻿@model ReactDemo.Models.IndexViewModel
 @{
     Layout = null;
 }
@@ -7,21 +7,43 @@
     <title>Hello React</title>
 </head>
 <body>
+    @*<!--Greet Components-->
+    @Html.React("Components.Greet", new
+    {
+    name = "Component1"
+    })
+
+    <!--Comments Components-->
     @Html.React("Components.CommentsBox", new
     {
         initialData = Model,
         getUrl = Url.Action("Comments"),
         submitUrl = Url.Action("AddComment"),
         pollInterval = 2000
-    })
-    @Html.React("Components.Greet", new
-{
-    name = "Test name Property"
-})
-    <div id="content"></div>
-    <script src="@Url.Content("~/build/client.bundle.js")"></script>
+    })*@
 
-    @Html.ReactInitJavaScript()
+    <!--Container Components-->
+    @*@Html.React("Container", new
+    {
+        name = "Container1"
+    })*@
+
+    <div id="content">
+        @*@await Component.InvokeAsync("React", new { Model = Model.Component1})
+        @await Component.InvokeAsync("React", new { Model = Model.Component2})
+        @await Component.InvokeAsync("React", new { Model = Model.Component3})*@
+
+        <vc:react model="@Model.Component1"></vc:react>
+        <vc:react model="@Model.Component2"></vc:react>
+        <vc:react model="@Model.Component3"></vc:react>
+
+        @*@{Html.RenderPartial("~/Views/Shared/ReactJS.cshtml", Model.Component1);}
+        @{Html.RenderPartial("~/Views/Shared/ReactJS.cshtml", Model.Component2);}
+        @{Html.RenderPartial("~/Views/Shared/ReactJS.cshtml", Model.Component3);}*@
+
+        <vc:react model="@Model.CommentsComponent"></vc:react>
+    </div>
+    <script src="@Url.Content("~/build/client.bundle.js")"></script>
 
 </body>
 </html>

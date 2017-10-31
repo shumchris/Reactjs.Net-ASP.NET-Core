@@ -8,29 +8,46 @@ namespace ReactDemo.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly IList<CommentModel> _comments;
-
+        private static List<CommentModel> comments;
+        private static IndexViewModel viewModel;
         static HomeController()
         {
-            _comments = new List<CommentModel>()
+            comments = new List<CommentModel>()
             {
-                 new CommentModel
+                new CommentModel()
                 {
+                    Author = "Author1",
                     Id = 1,
-                    Author = "Daniel Lo Nigro",
-                    Text = "Hello ReactJS.NET World!"
-                },
-                new CommentModel
+                    Text = "Text1 From Author1"
+                }
+            };
+            viewModel = new IndexViewModel()
+            {
+                Component1 = new ReactComponentModel(),
+                Component2 = new ReactComponentModel()
                 {
-                    Id = 2,
-                    Author = "Pete Hunt",
-                    Text = "This is one comment"
+                    ComponentName = "Components.Greet",
+                    Props = new
+                    {
+                        BadProp = true
+                    }
                 },
-                new CommentModel
+                Component3 = new ReactComponentModel()
                 {
-                    Id = 3,
-                    Author = "Jordan Walke",
-                    Text = "This is *another* comment"
+                    ComponentName = "Components.Greet",
+                    Props = new
+                    {
+                        Name = "Person 3"
+                    }
+                },
+                CommentsComponent = new ReactComponentModel()
+                {
+                    ComponentName = "Components.CommentsBox",
+                    Props = new
+                    {
+                        initialData = comments,
+                        pollInterval = 2000
+                    }
                 }
             };
         }
@@ -38,22 +55,22 @@ namespace ReactDemo.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View(_comments);
+            return View(viewModel);
         }
 
         [Route("comments")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Comments()
         {
-            return Json(_comments);
+            return Json(comments);
         }
-        
+
         [Route("comments/new")]
         [HttpPost]
         public IActionResult AddComment(CommentModel comment)
         {
-            comment.Id = _comments.Count + 1;
-            _comments.Add(comment);
+            comment.Id = comments.Count + 1;
+            comments.Add(comment);
             return Content("Success :)");
         }
     }

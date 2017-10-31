@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model ReactDemo.Models.ReactComponentModel
+
+    bool isRender = true;
+    string error = null;
+    string component = null;
+    try
+    {
+        var reactComponent = ReactEnvironment.Current.CreateComponent(Model.ComponentName, Model.Props);
+        component = reactComponent.RenderHtml(renderServerOnly: true);
+    }
+    catch (Exception ex)
+    {
+        isRender = false;
+        error = ex.Message;
+        //DO SOME LOGGING HERE
+    }
+}
+@if(isRender)
+{
+    @Html.Raw(component);
+}

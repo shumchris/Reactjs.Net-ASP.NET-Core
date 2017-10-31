@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 import React from 'react';
-import CommentsList from './CommentsList';
-import CommentForm from './CommentForm';
+import CommentsList from '../../client-components/Comments/CommentsList';
+import CommentForm from '../../client-components/Comments/CommentForm';
 
 class CommentsBox extends React.Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class CommentsBox extends React.Component {
     }
     loadCommentsFromServer() {
         var xhr = new XMLHttpRequest();
-        xhr.open('get', this.props.getUrl, true);
+        xhr.open('get', "/comments", true);
         xhr.onload = function () {
             var data = JSON.parse(xhr.responseText);
             this.setState({ data: data });
@@ -32,7 +32,7 @@ class CommentsBox extends React.Component {
         data.append('text', comment.text);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('post', this.props.submitUrl, true);
+        xhr.open('post', "/comments/new", true);
         xhr.onload = function () {
             this.loadCommentsFromServer();
         }.bind(this);

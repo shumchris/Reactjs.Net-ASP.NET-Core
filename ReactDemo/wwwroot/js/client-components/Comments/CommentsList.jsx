@@ -11,6 +11,7 @@ class CommentsList extends React.Component {
         };
     }
     render() {
+        //throw new Exception("Bad Stuff");
         var commentItems = this.props.data.map(function (comment) {
             return (
                 <Comment author={comment.author} key={comment.id}>
